@@ -30,12 +30,11 @@ rootpth   = inputs.rootpth
 out       = inputs.out
 dbdir     = inputs.dbdir
 midfolder = inputs.midfolder
-"""
-bfile: bacteria contigs
-outputfile: CRISPR
-pfile: phage contigs
-"""
 
+if not os.path.exists(rootpth):
+    os.system(f'mkdir {rootpth}')
+    os.system(f'mkdir {rootpth}/{out}')
+    os.system(f'mkdir {rootpth}/{midfolder}')
 
 
 ######################################################
