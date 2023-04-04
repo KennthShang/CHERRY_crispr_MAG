@@ -77,3 +77,19 @@ python CHERRY_crispr/cherry_crispr.py --bfile ~/bacteria.fa --pfile ~/phage.fa -
 
 ```
 
+
+If you use this program, please cite the following papers:
+
+* CHERRY:
+```
+Jiayu Shang, Yanni Sun, CHERRY: a Computational metHod for accuratE pRediction of virus–pRokarYotic interactions using a graph encoder–decoder model, Briefings in Bioinformatics, 2022;, bbac182, https://doi.org/10.1093/bib/bbac182
+```
+
+* CRT:
+```
+Bland C, Ramsey TL, Sabree F, Lowe M, Brown K, Kyrpides NC, Hugenholtz P:
+CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered regularly interspaced palindromic repeats. BMC Bioinformatics. 2007 Jun 18;8(1):209
+```
+
+The original version of CHERRY can be found via: [CHERRY](https://github.com/KennthShang/CHERRY)
+
