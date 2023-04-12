@@ -42,28 +42,56 @@ if not os.path.exists(rootpth):
 ######################################################
 # running CRT
 if bfolder == 'NONE':
-    outputfile = bfile.rsplit('.', 1)[0] + '.crispr'
+    pos2name={}
+    cur = 0
+    seq = ''
+    comb_name = bfile.split('/')[-1]
+    comb_name = comb_name.rsplit('.')[0]
+    with open(f'{rootpth}/{midfolder}/{comb_name}_comb.fa', 'w') as file:
+        _=file.write('>Seq\n')
+        for record in SeqIO.parse(f'{bfile}', 'fasta'):
+            pos2name[cur] = record.id
+            _=file.write(f'{str(record.seq)}----------\n')
+            cur += len(record.seq) + 10
 
-    os.system(f'java -cp {dbdir}/CRT1.2-CLI.jar crt {bfile} {rootpth}/{midfolder}/{outputfile}')
+    outputfile = comb_name + '.crispr'
+
+    os.system(f'java -cp {dbdir}/CRT1.2-CLI.jar crt {rootpth}/{midfolder}/{comb_name}_comb.fa {rootpth}/{midfolder}/{outputfile}')
 
     # Parser for CRT
     crispr_rec = []
+    pos_list = list(pos2name.keys())
+    old_accession = pos2name[0]
+    cnt = 0
+    cur = 0
     with open(f'{rootpth}/{midfolder}/{outputfile}') as file_in:
         for line in file_in:
-            if line.startswith('ORGANISM:'):
-                accession = line.split(' ')[2]
-                cnt = 0
-            else:
-                tmp_list = line.split("\t")
-                try:
-                    _ = int(tmp_list[0])
-                    if tmp_list[3] == '\n':
-                        continue
-                    rec = SeqRecord(Seq(tmp_list[3]), id=f'{accession}_CRISPR_{cnt}', description='')
-                    cnt += 1
-                    crispr_rec.append(rec)
-                except:
+            tmp_list = line.split("\t")
+            try:
+                pos = int(tmp_list[0])
+            except:
+                continue
+            # find accession
+            start = cur
+            for i in range(start, len(pos_list)):
+                if pos > pos_list[i+1]:
                     continue
+                else:
+                    cur = i
+                    accession = pos2name[pos_list[i]]
+                    if old_accession == accession:
+                        cnt += 1
+                    else:
+                        old_accession = accession
+                        cnt = 0
+                    break
+            if tmp_list[3] == '\n':
+                continue
+            rec = SeqRecord(Seq(tmp_list[3]), id=f'{old_accession}_CRISPR_{cnt}', description='')
+            cnt += 1
+            crispr_rec.append(rec)
+            #except:
+            #    continue
                     
     if crispr_rec:
         SeqIO.write(crispr_rec, f"{rootpth}/{midfolder}/CRISPRs.fa", 'fasta')
