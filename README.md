@@ -51,11 +51,11 @@ Then, the commond of CHERRY-crispr can be called by:
 
 
 ```
-python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfolder PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
+python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfolder PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
 
 OR
 
-python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfile PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
+python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfile PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
 
 ```
 
