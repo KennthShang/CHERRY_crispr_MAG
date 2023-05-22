@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description="""Main script of PhaSUIT.""")
 parser.add_argument('--bfile', help='FASTA file of bacterial contigs',  default = 'NONE')
 parser.add_argument('--bfolder', help='Folder of the bacterial contigs',  default = 'NONE')
 parser.add_argument('--pfile', help='FASTA file of phage contigs',  default = 'inputs.fa')
+parser.add_argument('--ident', help='ident threshold for the alignment',  default = 75)
 parser.add_argument('--threads', help='number of threads to use', type=int, default=8)
 parser.add_argument('--rootpth', help='rootpth of the user', default='user_0/')
 parser.add_argument('--out', help='output path of the user', default='out/')
@@ -30,6 +31,7 @@ rootpth   = inputs.rootpth
 out       = inputs.out
 dbdir     = inputs.dbdir
 midfolder = inputs.midfolder
+evalue    = inputs.ident
 
 if not os.path.exists(rootpth):
     os.system(f'mkdir {rootpth}')
@@ -174,7 +176,7 @@ with open(output_file) as file_out:
         ident = float(parse[-3])
         length = float(parse[-2])
         slen = float(parse[-1])
-        if length/slen > 0.95 and ident > 0.95:
+        if ident > evalue:
             Accession.append(virus)
             prediction.append(prokaryote.split('_CRISPR_')[0])
 
