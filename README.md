@@ -77,7 +77,17 @@ python CHERRY_crispr/cherry_crispr.py --bfile ~/bacteria.fa --pfile ~/phage.fa -
 
 ```
 
+## Outputs
 
+There are three output files in `--rootpth PATH_TO_OUTPUT`.
+
+1. CRISPRs.fa: CRISPRs found in your provided bacteria FASTA
+2. crispr_align.txt: BLASTN results between CRISPR and phage
+3. cherry_crispr_pred.csv: CSV files of the prediction (alignment > `--ident IDENTITY_THRESHOLD`)
+
+
+
+## Citation
 If you use this program, please cite the following papers:
 
 * CHERRY:
