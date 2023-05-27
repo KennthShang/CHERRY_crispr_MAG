@@ -31,7 +31,7 @@ rootpth   = inputs.rootpth
 out       = inputs.out
 dbdir     = inputs.dbdir
 midfolder = inputs.midfolder
-evalue    = inputs.ident
+value    = inputs.ident
 
 if not os.path.exists(rootpth):
     os.system(f'mkdir {rootpth}')
@@ -158,8 +158,9 @@ os.system(f'makeblastdb -in {rootpth}/{midfolder}/CRISPRs.fa -dbtype nucl -parse
 
 query_file = pfile
 db_host_crispr_prefix = f"{rootpth}/{midfolder}/crispr_db/allCRISPRs"
-output_file = f"{rootpth}/{midfolder}/crispr_pred.tab"
-crispr_call = NcbiblastnCommandline(query=query_file,db=db_host_crispr_prefix,out=output_file,outfmt="6 qseqid sseqid evalue pident length slen", evalue=1,gapopen=10,penalty=-1,
+output_file = f"{rootpth}/{midfolder}/crispr_align.tab"
+crispr_call = NcbiblastnCommandline(query=query_file,db=db_host_crispr_prefix,out=output_file,
+                                    outfmt="6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore", evalue=1,gapopen=10,penalty=-1,
                                   gapextend=2,word_size=7,dust='no',
                                  task='blastn-short',perc_identity=90,num_threads=threads)
 crispr_call()
@@ -173,10 +174,8 @@ with open(output_file) as file_out:
         parse = line.replace("\n", "").split("\t")
         virus = parse[0]
         prokaryote = parse[1]
-        ident = float(parse[-3])
-        length = float(parse[-2])
-        slen = float(parse[-1])
-        if ident > evalue:
+        ident = float(parse[3])
+        if ident > value:
             Accession.append(virus)
             prediction.append(prokaryote.split('_CRISPR_')[0])
 
@@ -184,3 +183,6 @@ df = pd.DataFrame({"phage_contig": Accession, "bacteria_contig": prediction})
 df = df.drop_duplicates()
 
 df.to_csv(f'{rootpth}/{out}/cherry_lite_pred.csv', index=False)
+os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out_dir}/CRISPRs.fa")
+os.system(f"cp {rootpth}/{midfolder}/crispr_align.tab {rootpth}/{out_dir}/crispr_align.txt")
+os.system(f"sed -i '1i\qseqid\tsseqid\tpident\tlength\tmismatch\tgapopen\tqstart\tqend\tsstart\tsend\tevalue\tbitscore' {rootpth}/{out}/blast_results.tab")
