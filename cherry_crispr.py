@@ -174,7 +174,7 @@ with open(output_file) as file_out:
         parse = line.replace("\n", "").split("\t")
         virus = parse[0]
         prokaryote = parse[1]
-        ident = float(parse[3])
+        ident = float(parse[2])
         if ident > value:
             Accession.append(virus)
             prediction.append(prokaryote.split('_CRISPR_')[0])
@@ -182,7 +182,7 @@ with open(output_file) as file_out:
 df = pd.DataFrame({"phage_contig": Accession, "bacteria_contig": prediction})
 df = df.drop_duplicates()
 
-df.to_csv(f'{rootpth}/{out}/cherry_lite_pred.csv', index=False)
+df.to_csv(f'{rootpth}/{out}/cherry_crispr_pred.csv', index=False)
 os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out_dir}/CRISPRs.fa")
 os.system(f"cp {rootpth}/{midfolder}/crispr_align.tab {rootpth}/{out_dir}/crispr_align.txt")
 os.system(f"sed -i '1i\qseqid\tsseqid\tpident\tlength\tmismatch\tgapopen\tqstart\tqend\tsstart\tsend\tevalue\tbitscore' {rootpth}/{out}/blast_results.tab")
