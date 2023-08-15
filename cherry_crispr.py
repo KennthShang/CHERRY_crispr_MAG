@@ -183,6 +183,6 @@ df = pd.DataFrame({"phage_contig": Accession, "bacteria_contig": prediction})
 df = df.drop_duplicates()
 
 df.to_csv(f'{rootpth}/{out}/cherry_crispr_pred.csv', index=False)
-os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out_dir}/CRISPRs.fa")
-os.system(f"cp {rootpth}/{midfolder}/crispr_align.tab {rootpth}/{out_dir}/crispr_align.txt")
+os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out}/CRISPRs.fa")
+os.system(f"cp {rootpth}/{midfolder}/crispr_align.tab {rootpth}/{out}/crispr_align.txt")
 os.system(f"sed -i '1i\qseqid\tsseqid\tpident\tlength\tmismatch\tgapopen\tqstart\tqend\tsstart\tsend\tevalue\tbitscore' {rootpth}/{out}/blast_results.tab")
