@@ -31,7 +31,7 @@ rootpth   = inputs.rootpth
 out       = inputs.out
 dbdir     = inputs.dbdir
 midfolder = inputs.midfolder
-value    = inputs.ident
+value     = float(inputs.ident)
 
 if not os.path.exists(rootpth):
     os.system(f'mkdir {rootpth}')
