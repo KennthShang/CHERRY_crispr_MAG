@@ -28,7 +28,7 @@ Output:
 
 ## An easiler way to install
 
-**Note**: If you have already install phabox env, you can skip this part
+**Note: If you have already install phabox env, you can skip this part**
 
 We suggest you install all the packages using conda (both Miniconda and Anaconda are ok) following the command lines below:
 
@@ -53,29 +53,36 @@ Then, the commond of CHERRY-crispr can be called by:
 
 
 ```
-python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfolder PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
+python PATH_TO_THIS_FOLDER/cherry_crispr.py --bfolder PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_THIS_FOLDER/database
 
 OR
 
-python PATH_TO_CHERRY_CRISPR/cherry_crispr.py --bfile PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_CHERRY_CRISPR/database
+python PATH_TO_THIS_FOLDER/cherry_crispr.py --bfile PATH_TO_BACTERIA --pfile PATH_TO_PHAGE --ident IDENTITY_THRESHOLD --threads NUM_OF_THREAD --rootpth PATH_TO_OUTPUT --dbdir PATH_TO_THIS_FOLDER/database
 
 ```
 
 There are two options for bacterial contigs:
 
-1. --bfolder: the folder where you store your bacterial contigs (all the contigs should be FASTA files)
+1. --bfolder: the folder where you store your bacterial MAGs (FASTA files, allow to treat one fasta as a genome)
 
-2. --bfile: the file where you store your bacterial contigs (FASTA file)
+2. --bfile: the file where you store all your bacterial contigs (FASTA file, will treat each contig as a genome)
 
+
+Two options for threshold:
+
+1. --ident: identity of the alignment (default: 95)
+2. --cov: coverage of the CRISPRs (default: 95)
+
+The smaller the value, the more results will be returned. However, the default value has the highest precision according to our experiments.
 
 For example:
 
 ```
-python CHERRY_crispr/cherry_crispr.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr/database
+python CHERRY_crispr_MAG/cherry_crispr.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95
 
 OR
 
-python CHERRY_crispr/cherry_crispr.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr/database
+python CHERRY_crispr_MAG/cherry_crispr.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95
 
 ```
 
