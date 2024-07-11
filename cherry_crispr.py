@@ -13,7 +13,8 @@ parser = argparse.ArgumentParser(description="""Main script of PhaSUIT.""")
 parser.add_argument('--bfile', help='FASTA file of bacterial contigs',  default = 'NONE')
 parser.add_argument('--bfolder', help='Folder of the bacterial contigs',  default = 'NONE')
 parser.add_argument('--pfile', help='FASTA file of phage contigs',  default = 'inputs.fa')
-parser.add_argument('--ident', help='ident threshold for the alignment',  default = 95)
+parser.add_argument('--ident', help='ident threshold for the alignment', type=float, default = 95)
+parser.add_argument('--coverage', help='coverage threshold for the CRISPRs', type=float, default = 0.95)
 parser.add_argument('--threads', help='number of threads to use', type=int, default=8)
 parser.add_argument('--rootpth', help='rootpth of the user', default='user_0/')
 parser.add_argument('--out', help='output path of the user', default='out/')
@@ -31,7 +32,8 @@ rootpth   = inputs.rootpth
 out       = inputs.out
 dbdir     = inputs.dbdir
 midfolder = inputs.midfolder
-value     = float(inputs.ident)
+ident_in      = inputs.ident
+coverage_in   = inputs.coverage
 
 if not os.path.exists(rootpth):
     os.system(f'mkdir {rootpth}')
@@ -158,9 +160,9 @@ os.system(f'makeblastdb -in {rootpth}/{midfolder}/CRISPRs.fa -dbtype nucl -parse
 
 query_file = pfile
 db_host_crispr_prefix = f"{rootpth}/{midfolder}/crispr_db/allCRISPRs"
-output_file = f"{rootpth}/{midfolder}/crispr_align.tab"
+output_file = f"{rootpth}/{out}/crispr_align.tab"
 crispr_call = NcbiblastnCommandline(query=query_file,db=db_host_crispr_prefix,out=output_file,
-                                    outfmt="6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore", evalue=1,gapopen=10,penalty=-1,
+                                    outfmt="6 qseqid sseqid evalue pident length slen", evalue=1,gapopen=10,penalty=-1,
                                   gapextend=2,word_size=7,dust='no',
                                  task='blastn-short',perc_identity=90,num_threads=threads)
 crispr_call()
@@ -173,9 +175,12 @@ with open(output_file) as file_out:
     for line in file_out.readlines():
         parse = line.replace("\n", "").split("\t")
         virus = parse[0]
-        prokaryote = parse[1]
-        ident = float(parse[2])
-        if ident > value:
+        prokaryote = parse[1].split('|')[1]
+        prokaryote = prokaryote.split('.')[0]
+        ident = float(parse[-3])
+        length = float(parse[-2])
+        slen = float(parse[-1])
+        if length/slen > coverage_in and ident > ident_in:
             Accession.append(virus)
             prediction.append(prokaryote.split('_CRISPR_')[0])
 
@@ -184,5 +189,9 @@ df = df.drop_duplicates()
 
 df.to_csv(f'{rootpth}/{out}/cherry_crispr_pred.csv', index=False)
 os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out}/CRISPRs.fa")
-os.system(f"cp {rootpth}/{midfolder}/crispr_align.tab {rootpth}/{out}/crispr_align.txt")
-os.system(f"sed -i '1i\qseqid\tsseqid\tpident\tlength\tmismatch\tgapopen\tqstart\tqend\tsstart\tsend\tevalue\tbitscore' {rootpth}/{out}/crispr_align.txt")
+os.system(f"sed -i '1i\qseqid\tsseqid\tevalue\tpident\tlength\tslen' {rootpth}/{out}/crispr_align.tab")
+
+
+
+
+
