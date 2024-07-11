@@ -47,12 +47,12 @@ conda install blast -c bioconda
 git clone https://github.com/KennthShang/CHERRY_crispr_DATABASE.git
 
 # If one MAG is in one fasta file and all the MAGs are located in ~/bacteria/
-python CHERRY_crispr_MAG/cherry_crispr.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
+python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
 
 OR
 
 # If all bacteria sequences in one fasta file named ~/bacteria.fa
-python CHERRY_crispr_MAG/cherry_crispr.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
+python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
 ```
 
 
