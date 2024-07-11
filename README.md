@@ -28,7 +28,9 @@ Output:
 
 ## An easiler way to install
 
-We suggest you to install all the package using conda (both miniconda and Anaconda are ok) following the command lines as below:
+**Note**: If you have already install phabox env, you can skip this part
+
+We suggest you install all the packages using conda (both Miniconda and Anaconda are ok) following the command lines below:
 
 ```
 conda create --name cherry_crispr python=3.8
