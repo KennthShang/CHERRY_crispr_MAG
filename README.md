@@ -47,12 +47,12 @@ conda install blast -c bioconda
 git clone https://github.com/KennthShang/CHERRY_crispr_DATABASE.git
 
 # If one MAG is in one fasta file and all the MAGs are located in ~/bacteria/
-python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
+python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfolder ~/bacteria/ --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 90 --coverage 0.9
 
 OR
 
 # If all bacteria sequences in one fasta file named ~/bacteria.fa
-python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 95 --coverage 0.95
+python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfile ~/bacteria.fa --pfile ~/phage.fa --threads 40 --rootpth ~/test_dir --dbdir CHERRY_crispr_MAG/database --ident 90 --coverage 0.9
 ```
 
 
@@ -76,9 +76,9 @@ python CHERRY_crispr_MAG/cherry_crispr_mag.py --bfile ~/bacteria.fa --pfile ~/ph
       --threads 
                             Number of threads to run the program (default 8)
       --ident
-                            Identity threshold for the alignments (default 95)
+                            Identity threshold for the alignments (default 90)
       --coverage
-                            Coverage threshold for the alignments (default 0.95)
+                            Coverage threshold for the alignments (default 0.9)
 
 
 **The program will return the results that meet both ident & coverage thresholds.**
