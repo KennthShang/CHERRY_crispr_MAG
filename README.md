@@ -100,6 +100,7 @@ Output:
     1. CRISPRs.fa: CRISPRs found in your provided bacteria
     2. crispr_align.txt: BLASTN results between CRISPR and phage
     3. cherry_crispr_pred.csv: CSV files of the prediction
+       [In the program --ident refer to pident and --coverage refer to length/slen]
 ```
 
 
