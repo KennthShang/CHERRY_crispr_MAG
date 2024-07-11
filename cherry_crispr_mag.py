@@ -171,26 +171,29 @@ crispr_call()
 # parse the BLASTN result
 Accession = []
 prediction = []
+Coverage = []
+Identity = []
 with open(output_file) as file_out:
     for line in file_out.readlines():
         parse = line.replace("\n", "").split("\t")
         virus = parse[0]
-        prokaryote = parse[1].split('|')[1]
-        prokaryote = prokaryote.split('.')[0]
+        prokaryote = parse[1]
         ident = float(parse[-3])
         length = float(parse[-2])
         slen = float(parse[-1])
         if length/slen > coverage_in and ident > ident_in:
             Accession.append(virus)
             prediction.append(prokaryote.split('_CRISPR_')[0])
+            Identity.append(ident)
+            Coverage.append(length/slen)
 
-df = pd.DataFrame({"phage_contig": Accession, "bacteria_contig": prediction})
+df = pd.DataFrame({"Phages": Accession, "Bacteria_MAG": prediction, 'Identity': Identity, 'Coverage': Coverage})
 df = df.drop_duplicates()
 
 df.to_csv(f'{rootpth}/{out}/cherry_crispr_pred.csv', index=False)
 os.system(f"cp {rootpth}/{midfolder}/CRISPRs.fa {rootpth}/{out}/CRISPRs.fa")
 os.system(f"sed -i '1i\qseqid\tsseqid\tevalue\tpident\tlength\tslen' {rootpth}/{out}/crispr_align.tab")
-
+print('Program complete!')
 
 
 
